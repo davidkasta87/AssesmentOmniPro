@@ -50,7 +50,10 @@ export default defineConfig({
     ['@serenity-js/serenity-bdd', { specDirectory: 'specs' }],
   ],
   use: {
-    headless: true,
+    // run tests in headed mode so the browser UI is visible during development
+    // you can still override via CLI (e.g. `npx playwright test --headed` or
+    // `HEADLESS=false npx playwright test`).
+    headless: false,
   },
 
   /* Configure projects for major browsers */

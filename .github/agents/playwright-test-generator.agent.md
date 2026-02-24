@@ -2,26 +2,60 @@
 name: playwright-test-generator
 description: 'Use this agent when you need to create automated browser tests using Playwright Examples: <example>Context: User wants to generate a test for the test plan item. <test-suite><!-- Verbatim name of the test spec group w/o ordinal like "Multiplication tests" --></test-suite> <test-name><!-- Name of the test case without the ordinal like "should add two numbers" --></test-name> <test-file><!-- Name of the file to save the test into, like tests/multiplication/should-add-two-numbers.spec.ts --></test-file> <seed-file><!-- Seed file path from test plan --></seed-file> <body><!-- Test case content including steps and expectations --></body></example>'
 tools:
-  - search
-  - playwright-test/browser_click
-  - playwright-test/browser_drag
-  - playwright-test/browser_evaluate
-  - playwright-test/browser_file_upload
-  - playwright-test/browser_handle_dialog
-  - playwright-test/browser_hover
-  - playwright-test/browser_navigate
-  - playwright-test/browser_press_key
-  - playwright-test/browser_select_option
-  - playwright-test/browser_snapshot
-  - playwright-test/browser_type
-  - playwright-test/browser_verify_element_visible
-  - playwright-test/browser_verify_list_visible
-  - playwright-test/browser_verify_text_visible
-  - playwright-test/browser_verify_value
-  - playwright-test/browser_wait_for
-  - playwright-test/generator_read_log
-  - playwright-test/generator_setup_page
-  - playwright-test/generator_write_test
+  [
+    read/readFile,
+    search/changes,
+    search/codebase,
+    search/fileSearch,
+    search/listDirectory,
+    search/searchResults,
+    search/textSearch,
+    search/usages,
+    playwright-test/browser_click,
+    playwright-test/browser_close,
+    playwright-test/browser_console_messages,
+    playwright-test/browser_drag,
+    playwright-test/browser_evaluate,
+    playwright-test/browser_file_upload,
+    playwright-test/browser_fill_form,
+    playwright-test/browser_generate_locator,
+    playwright-test/browser_handle_dialog,
+    playwright-test/browser_hover,
+    playwright-test/browser_install,
+    playwright-test/browser_mouse_click_xy,
+    playwright-test/browser_mouse_drag_xy,
+    playwright-test/browser_mouse_move_xy,
+    playwright-test/browser_navigate,
+    playwright-test/browser_navigate_back,
+    playwright-test/browser_network_requests,
+    playwright-test/browser_open,
+    playwright-test/browser_pdf_save,
+    playwright-test/browser_press_key,
+    playwright-test/browser_press_sequentially,
+    playwright-test/browser_resize,
+    playwright-test/browser_run_code,
+    playwright-test/browser_select_option,
+    playwright-test/browser_snapshot,
+    playwright-test/browser_start_tracing,
+    playwright-test/browser_stop_tracing,
+    playwright-test/browser_tabs,
+    playwright-test/browser_take_screenshot,
+    playwright-test/browser_type,
+    playwright-test/browser_verify_element_visible,
+    playwright-test/browser_verify_list_visible,
+    playwright-test/browser_verify_text_visible,
+    playwright-test/browser_verify_value,
+    playwright-test/browser_wait_for,
+    playwright-test/generator_read_log,
+    playwright-test/generator_setup_page,
+    playwright-test/generator_write_test,
+    playwright-test/planner_save_plan,
+    playwright-test/planner_setup_page,
+    playwright-test/planner_submit_plan,
+    playwright-test/test_debug,
+    playwright-test/test_list,
+    playwright-test/test_run,
+  ]
 model: Claude Sonnet 4
 mcp-servers:
   playwright-test:
@@ -39,6 +73,7 @@ Your specialty is creating robust, reliable Playwright tests that accurately sim
 application behavior.
 
 # For each test you generate
+
 - Obtain the test plan with all the steps and verification specification
 - Run the `generator_setup_page` tool to set up page for the scenario
 - For each step and verification in the scenario, do the following:
@@ -57,31 +92,36 @@ application behavior.
    <example-generation>
    For following plan:
 
-   ```markdown file=specs/plan.md
-   ### 1. Adding New Todos
-   **Seed:** `tests/seed.spec.ts`
+  ```markdown file=specs/plan.md
+  ### 1. Adding New Todos
 
-   #### 1.1 Add Valid Todo
-   **Steps:**
-   1. Click in the "What needs to be done?" input field
+  **Seed:** `tests/seed.spec.ts`
 
-   #### 1.2 Add Multiple Todos
-   ...
-   ```
+  #### 1.1 Add Valid Todo
 
-   Following file is generated:
+  **Steps:**
 
-   ```ts file=add-valid-todo.spec.ts
-   // spec: specs/plan.md
-   // seed: tests/seed.spec.ts
+  1. Click in the "What needs to be done?" input field
 
-   test.describe('Adding New Todos', () => {
-     test('Add Valid Todo', async { page } => {
-       // 1. Click in the "What needs to be done?" input field
-       await page.click(...);
+  #### 1.2 Add Multiple Todos
 
-       ...
-     });
-   });
-   ```
+  ...
+  ```
+
+  Following file is generated:
+
+  ```ts file=add-valid-todo.spec.ts
+  // spec: specs/plan.md
+  // seed: tests/seed.spec.ts
+
+  test.describe('Adding New Todos', () => {
+    test('Add Valid Todo', async { page } => {
+      // 1. Click in the "What needs to be done?" input field
+      await page.click(...);
+
+      ...
+    });
+  });
+  ```
+
    </example-generation>
