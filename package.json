@@ -16,10 +16,10 @@
     "@serenity-js/console-reporter": "^3.41.0",
     "@serenity-js/core": "^3.41.0",
     "@serenity-js/playwright": "^3.41.0",
+    "@serenity-js/playwright-test": "^3.41.0",
+    "@serenity-js/rest": "^3.41.0",
     "@serenity-js/serenity-bdd": "^3.41.0",
     "@serenity-js/web": "^3.41.0",
-    "@serenity-js/rest": "^3.41.0",
-    "@serenity-js/playwright-test": "^3.41.0",
     "@types/node": "^25.3.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"

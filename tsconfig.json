@@ -3,6 +3,7 @@
     "target": "ES2022",
     "module": "commonjs",
     "moduleResolution": "node",
+    "ignoreDeprecations": "6.0",
     // include DOM lib so browser types (HTMLElement, SVGElement, etc.) are
     // available; Playwright's type definitions rely on them.  `es2022` still
     // provides the language features we want.
@@ -13,6 +14,7 @@
     "rootDir": ".",
     // skipping library checks reduces noise coming from third-party type
     // definitions and keeps compile times reasonable.
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": ["node"]
   }
 }
