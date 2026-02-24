@@ -4,32 +4,44 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Navigation Suite', () => {
-  test('Caso 4: Section Alerts, Frame & Windows', async ({ page }) => {
+  test('Caso 4: Section Alerts, Frame & Windows', async ({ page, context }) => {
     // 1. Enter Alerts, Frame & Windows
     await page.goto('https://demoqa.com/');
     await page.getByText('Alerts, Frame & Windows').click();
-    await page.waitForURL('**/alertsWindows');
+    await expect(page).toHaveURL(/.*alertsWindows/);
 
     // select the Alerts subitem from the sidebar
     await page.getByRole('link', { name: 'Alerts' }).click();
-    await page.waitForURL('**/alerts');
+    await expect(page).toHaveURL(/.*alerts/);
 
     // 2. Try a button that shows a simple alert
-    await page.waitForSelector('#alertButton', { state: 'visible' });
-    page.once('dialog', dialog => dialog.accept());
+    await expect(page.locator('#alertButton')).toBeVisible();
+    let alertShown = false;
+    page.once('dialog', dialog => {
+      alertShown = true;
+      dialog.accept();
+    });
     await page.click('#alertButton');
+    expect(alertShown).toBe(true);
 
     // 4. Try a button that opens a new window/tab
     await page.getByRole('link', { name: 'Browser Windows' }).click();
-    await page.waitForURL('**/browser-windows');
-    await page.waitForSelector('#windowButton', { state: 'visible' });
+    await expect(page).toHaveURL(/.*browser-windows/);
+    await expect(page.locator('#windowButton')).toBeVisible();
 
     const [newPage] = await Promise.all([
-      page.context().waitForEvent('page'),
+      context.waitForEvent('page'),
       page.click('#windowButton'),
     ]);
     await newPage.waitForLoadState();
     // the new page should have a different URL than the main one
     expect(newPage.url()).not.toBe(page.url());
+    // Confirm the new page is opened
+    expect(newPage).toBeDefined();
+  });
+
+  test.afterAll(async () => {
+    // Confirm the scenario was completed
+    console.log('Scenario "Caso 4: Section Alerts, Frame & Windows" completed successfully.');
   });
 });
