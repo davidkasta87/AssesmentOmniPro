@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    // include DOM lib so browser types (HTMLElement, SVGElement, etc.) are
+    // available; Playwright's type definitions rely on them.  `es2022` still
+    // provides the language features we want.
+    "lib": ["es2022", "DOM", "DOM.Iterable"],
+    "strict": true,
+    "sourceMap": true,
+    "outDir": "dist",
+    "rootDir": ".",
+    // skipping library checks reduces noise coming from third-party type
+    // definitions and keeps compile times reasonable.
+    "skipLibCheck": true
+  }
+}

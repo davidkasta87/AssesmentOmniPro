@@ -1,0 +1,27 @@
+{
+  "name": "omniproassesment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@serenity-js/assertions": "^3.41.0",
+    "@serenity-js/console-reporter": "^3.41.0",
+    "@serenity-js/core": "^3.41.0",
+    "@serenity-js/playwright": "^3.41.0",
+    "@serenity-js/serenity-bdd": "^3.41.0",
+    "@serenity-js/web": "^3.41.0",
+    "@serenity-js/rest": "^3.41.0",
+    "@serenity-js/playwright-test": "^3.41.0",
+    "@types/node": "^25.3.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
