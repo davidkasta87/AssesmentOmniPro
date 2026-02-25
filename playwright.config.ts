@@ -1,20 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
 
-// When using Serenity/JS with Playwright the framework doesn't export a helper
-// like `serenity()` – instead you register the reporter(s) you need in the
-// `reporter` section below.  The `@serenity-js/playwright` package provides
-// Screenplay abilities and selectors; the actual reporting services live in
-// `@serenity-js/console-reporter`, `@serenity-js/serenity-bdd`, etc.
-//
-// You can specify them by package name (string) or import the default factory
-// and invoke it to obtain a reporter builder.  In this configuration we will
-// wire up the console reporter and the Serenity BDD reporter so that Playwright
-// emits the Serenity events that drive the familiar Serenity Mocha/Jasmine
-// reports.
-
-// eslint-disable-next-line unicorn/no-unused-vars
-// (reporter used via string name below)
-import type {} from '@serenity-js/serenity-bdd';
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -36,6 +21,9 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
+
+  /* Global setup and teardown */
+  globalSetup: require.resolve('./test-setup/global-hooks.ts'),
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   // - `list` keeps the default Playwright output in the terminal
   // - the console reporter mirrors events to Serenity/JS console output
@@ -43,17 +31,26 @@ export default defineConfig({
   //   the Serenity BDD CLI or used with Serenity/JS services such as the
   //   Web/serenity-bdd integration.
   reporter: [
+    ['html', {
+      outputFolder: 'playwright-report',
+      open: 'never',
+      attachToReport: true
+    }],
     ['list'],
-    // using strings is sufficient when no custom configuration is required
-    ['@serenity-js/console-reporter', { theme: 'auto' }],
-    // use a string-based reporter; Playwright will `require()` the module for us
-    ['@serenity-js/serenity-bdd', { specDirectory: 'specs' }],
+    ['json', { outputFile: 'playwright-report/results.json' }],
   ],
   use: {
-    // run tests in headed mode so the browser UI is visible during development
-    // you can still override via CLI (e.g. `npx playwright test --headed` or
-    // `HEADLESS=false npx playwright test`).
+    baseURL: process.env.BASE_URL || 'https://demoqa.com',
     headless: false,
+
+    // Enhanced failure evidence
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+    trace: 'retain-on-failure',
+
+    // Test timeout
+    actionTimeout: 10000,
+    navigationTimeout: 10000,
   },
 
   /* Configure projects for major browsers */
@@ -63,16 +60,16 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
 
-/* {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
-*/
+    /* {
+          name: 'firefox',
+          use: { ...devices['Desktop Firefox'] },
+        },
+    
+        {
+          name: 'webkit',
+          use: { ...devices['Desktop Safari'] },
+        },
+    */
     /* Test against mobile viewports. */
     // {
     //   name: 'Mobile Chrome',

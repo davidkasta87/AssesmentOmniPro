@@ -5,9 +5,9 @@ import { test, expect } from '@playwright/test';
 
 
 test.describe('Navigation Suite', () => {
-  test('Caso 7: Book Store Application – Búsqueda de Libros', async ({ page }) => {
+  test('Caso 7: Book Store Application – Búsqueda de Libros', async ({ page }, testInfo) => {
     // 1. Click on Book Store Application
-    await page.goto('https://demoqa.com/');
+    await page.goto('/');
     await page.getByText('Book Store Application').click();
     await expect(page).toHaveURL(/.*books/);
 
@@ -19,6 +19,10 @@ test.describe('Navigation Suite', () => {
     // verify that at least one result contains the search term
     const resultLink = page.locator('table').getByRole('link', { name: /Git/i }).first();
     await expect(resultLink).toBeVisible();
+
+    // Take screenshot for evidence
+    const screenshot = await page.screenshot({ fullPage: true });
+    await testInfo.attach('final-screenshot', { body: screenshot, contentType: 'image/png' });
   });
 
   test.afterAll(async () => {

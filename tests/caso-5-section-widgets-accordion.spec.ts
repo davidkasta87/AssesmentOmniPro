@@ -4,9 +4,9 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Navigation Suite', () => {
-  test('Caso 5: Section Widgets – Accordion', async ({ page }) => {
+  test('Caso 5: Section Widgets – Accordion', async ({ page }, testInfo) => {
     // 1. Go to Widgets
-    await page.goto('https://demoqa.com/');
+    await page.goto('/');
     await page.getByText('Widgets').click();
     await expect(page).toHaveURL(/.*widgets/);
 
@@ -27,6 +27,10 @@ test.describe('Navigation Suite', () => {
       const bodyText = await panelBodies.nth(i).innerText();
       expect(bodyText.trim().length).toBeGreaterThan(0);
     }
+
+    // Take screenshot for evidence
+    const screenshot = await page.screenshot({ fullPage: true });
+    await testInfo.attach('final-screenshot', { body: screenshot, contentType: 'image/png' });
   });
 
   test.afterAll(async () => {

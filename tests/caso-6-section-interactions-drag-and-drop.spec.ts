@@ -4,9 +4,9 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Navigation Suite', () => {
-  test('Caso 6: Section Interactions – Drag and Drop', async ({ page }) => {
+  test('Caso 6: Section Interactions – Drag and Drop', async ({ page }, testInfo) => {
     // 1. Go to Interactions
-    await page.goto('https://demoqa.com/');
+    await page.goto('/');
     await page.getByText('Interactions').click();
     await expect(page).toHaveURL(/.*interaction/);
 
@@ -20,6 +20,10 @@ test.describe('Navigation Suite', () => {
     await draggable.dragTo(droppable);
     // expect: Element can be dragged to destination and feedback indicates success
     await expect(droppable).toHaveText('Dropped!');
+
+    // Take screenshot for evidence
+    const screenshot = await page.screenshot({ fullPage: true });
+    await testInfo.attach('final-screenshot', { body: screenshot, contentType: 'image/png' });
   });
 
   test.afterAll(async () => {

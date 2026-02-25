@@ -4,9 +4,9 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Navigation Suite', () => {
-  test('Caso 4: Section Alerts, Frame & Windows', async ({ page, context }) => {
+  test('Caso 4: Section Alerts, Frame & Windows', async ({ page, context }, testInfo) => {
     // 1. Enter Alerts, Frame & Windows
-    await page.goto('https://demoqa.com/');
+    await page.goto('/');
     await page.getByText('Alerts, Frame & Windows').click();
     await expect(page).toHaveURL(/.*alertsWindows/);
 
@@ -38,6 +38,10 @@ test.describe('Navigation Suite', () => {
     expect(newPage.url()).not.toBe(page.url());
     // Confirm the new page is opened
     expect(newPage).toBeDefined();
+
+    // Take screenshot for evidence
+    const screenshot = await page.screenshot({ fullPage: true });
+    await testInfo.attach('final-screenshot', { body: screenshot, contentType: 'image/png' });
   });
 
   test.afterAll(async () => {

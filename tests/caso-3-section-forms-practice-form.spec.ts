@@ -2,39 +2,38 @@
 // seed: tests/seed.spec.ts
 
 import { test, expect } from '@playwright/test';
+import { HomePage, FormsPage, PracticeFormPage, UserFormData } from '../page-objects';
 
 test.describe('1. Navigation Suite', () => {
-  test('1.3. Caso 3: Section Forms – Practice Form', async ({ page }) => {
-    // 1. Click on Forms
-    await page.goto('https://demoqa.com/');
-    await page.getByRole('link', { name: 'Forms' }).click();
+  test('1.3. Caso 3: Section Forms – Practice Form', async ({ page }, testInfo) => {
+    const homePage = new HomePage(page);
+    const formsPage = new FormsPage(page);
+    const practiceFormPage = new PracticeFormPage(page);
+
+    // 1. Navigate to Forms section
+    await homePage.navigateToHomePage();
+    await homePage.clickForms();
 
     // 2. Select Practice Form
-    await page.getByRole('link', { name: 'Practice Form' }).click();
+    await formsPage.clickPracticeForm();
 
-    // 3. Complete all required fields (first name, last name, email, gender, mobile, Date of Birth, Hobbies, Current Address, etc.)
-    await page.getByRole('textbox', { name: 'First Name' }).fill('Juan');
-    await page.getByRole('textbox', { name: 'Last Name' }).fill('Perez');
-    await page.getByRole('textbox', { name: 'name@example.com' }).fill('juan.perez@example.com');
-    await page.getByRole('radio', { name: 'Male', exact: true }).click();
-    await page.getByRole('textbox', { name: 'Mobile Number' }).fill('1234567890');
-    // set date of birth directly to avoid calendar issues
-    await page.fill('#dateOfBirthInput', '15 Jan 1990');
-    await page.getByRole('checkbox', { name: 'Sports' }).click();
-    await page.getByRole('textbox', { name: 'Current Address' }).fill('Av. Siempre Viva 123, Springfield');
+    // 3. Complete form with user data
+    const userData: UserFormData = {
+      firstName: 'Juan',
+      lastName: 'Perez',
+      email: 'juan.perez@example.com',
+      gender: 'Male',
+      mobile: '1234567890',
+      dateOfBirth: '15 Jan 1990',
+      hobbies: ['Sports'],
+      currentAddress: 'Av. Siempre Viva 123, Springfield'
+    };
 
-    // 4. Click submit
-    await page.getByRole('button', { name: 'Submit' }).click();
-    // expect: A modal or message confirms successful form submission
-    const dialog = page.getByRole('dialog', { name: 'Thanks for submitting the form' });
-    await expect(dialog).toBeVisible();
-    await expect(dialog).toContainText('Juan Perez');
-    await expect(dialog).toContainText('juan.perez@example.com');
-    await expect(dialog).toContainText('Male');
-    await expect(dialog).toContainText('1234567890');
-    await expect(dialog).toContainText('15 January,1990');
-    await expect(dialog).toContainText('Sports');
-    await expect(dialog).toContainText('Av. Siempre Viva 123, Springfield');
+    // 4. Execute complete form workflow (fill, submit, verify)
+    await practiceFormPage.completeFormWorkflow(userData);
+
+    // Take screenshot for evidence
+    await practiceFormPage.takeScreenshot(testInfo, 'final-screenshot');
   });
 
   test.afterAll(async () => {
