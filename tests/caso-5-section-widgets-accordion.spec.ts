@@ -8,17 +8,16 @@ test.describe('Navigation Suite', () => {
     // 1. Go to Widgets
     await page.goto('https://demoqa.com/');
     await page.getByText('Widgets').click();
-    await page.waitForURL('**/widgets');
-    expect(page.url()).toContain('/widgets');
+    await expect(page).toHaveURL(/.*widgets/);
 
     // 2. Select Accordion
     // Note: the site labels it "Accordian" in the sidebar
     await page.getByRole('link', { name: 'Accordian' }).click();
-    await page.waitForURL('**/accord*');
-    await page.waitForSelector('.accordion', { state: 'visible' });
+    await expect(page).toHaveURL(/.*accord/);
+    await expect(page.locator('.accordion')).toBeVisible();
 
     // 3. Click through different panels of the accordion
-    const panelButtons = page.locator('.accordion .card-header button, .card-header button, .accordion button');
+    const panelButtons = page.locator('.accordion .card-header button');
     const panelBodies = page.locator('.accordion .card-body');
     const count = await panelButtons.count();
     for (let i = 0; i < count; i++) {
@@ -28,5 +27,10 @@ test.describe('Navigation Suite', () => {
       const bodyText = await panelBodies.nth(i).innerText();
       expect(bodyText.trim().length).toBeGreaterThan(0);
     }
+  });
+
+  test.afterAll(async () => {
+    // Confirm the scenario was completed
+    console.log('Scenario "Caso 5: Section Widgets – Accordion" completed successfully.');
   });
 });
