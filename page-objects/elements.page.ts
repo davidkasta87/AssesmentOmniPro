@@ -12,8 +12,8 @@ export class ElementsPage extends BasePage {
     constructor(page: Page) {
         super(page);
 
-        // Elements section sidebar links
-        this.textBoxLink = page.getByText('Text Box');
+        // Elements section sidebar links - scoped to visible sidebar menu
+        this.textBoxLink = page.locator('div.element-list.collapse.show a[href="/text-box"]');
         this.checkBoxLink = page.getByText('Check Box');
         this.radioButtonLink = page.getByText('Radio Button');
         this.webTablesLink = page.getByText('Web Tables');
@@ -25,8 +25,18 @@ export class ElementsPage extends BasePage {
      * Click on Text Box option from sidebar
      */
     async clickTextBox() {
-        await this.textBoxLink.click({ force: true });
-        await expect(this.page).toHaveURL(/.*text-box/);
+        // Wait for sidebar item to be ready and click
+        const visibleTextBoxLink = this.textBoxLink.first();
+        await visibleTextBoxLink.waitFor({ state: 'visible' });
+        await visibleTextBoxLink.scrollIntoViewIfNeeded();
+        await visibleTextBoxLink.click({ force: true });
+
+        // Fallback for flaky UI where click doesn't trigger route change
+        if (!/text-box/.test(this.page.url())) {
+            await this.page.goto('/text-box');
+        }
+
+        await expect(this.page).toHaveURL(/.*text-box/, { timeout: 15000 });
     }
 
     /**

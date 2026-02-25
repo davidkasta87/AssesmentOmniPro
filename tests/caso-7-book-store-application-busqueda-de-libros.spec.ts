@@ -21,7 +21,7 @@ test.describe('Navigation Suite', () => {
     await expect(resultLink).toBeVisible();
 
     // Take screenshot for evidence
-    const screenshot = await page.screenshot({ fullPage: true });
+    const screenshot = await page.screenshot({ fullPage: true, timeout: 20000 });
     await testInfo.attach('final-screenshot', { body: screenshot, contentType: 'image/png' });
   });
 

@@ -485,3 +485,18 @@ This automation framework demonstrates:
 📊 **View the complete test report**: `playwright-report/index.html`  
 📋 **Test documentation**: `specs/demoqa-test.plan.md`  
 🔧 **Framework details**: This README and inline code documentation
+
+## Compatibility Note: Playwright and Serenity/JS
+
+This project is currently pinned to:
+
+- `@playwright/test`: `^1.58.2`
+
+At this time, Serenity/JS packages are **not installed** and have **not been validated** against the Playwright version used in this repository.  
+To avoid unstable reporting/integration behavior, Serenity/JS support is intentionally deferred.
+
+### Repository policy
+
+- Keep `@playwright/test` pinned as defined in `package.json`.
+- Do not add or upgrade `@serenity-js/*` packages directly on `main`.
+- Validate a compatible version set (`@playwright/test` + `@serenity-js/*`) in a dedicated branch before enabling Serenity/JS integration.

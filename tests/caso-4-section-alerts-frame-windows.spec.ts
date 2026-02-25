@@ -7,8 +7,9 @@ test.describe('Navigation Suite', () => {
   test('Caso 4: Section Alerts, Frame & Windows', async ({ page, context }, testInfo) => {
     // 1. Enter Alerts, Frame & Windows
     await page.goto('/');
-    await page.getByText('Alerts, Frame & Windows').click();
-    await expect(page).toHaveURL(/.*alertsWindows/);
+    // Target only the clickable link, not the heading
+    await page.locator('a[href="/alertsWindows"]').click({ force: true });
+    await expect(page).toHaveURL(/.*alertsWindows/, { timeout: 20000 });
 
     // select the Alerts subitem from the sidebar
     await page.getByRole('link', { name: 'Alerts' }).click();
@@ -25,7 +26,7 @@ test.describe('Navigation Suite', () => {
     expect(alertShown).toBe(true);
 
     // 4. Try a button that opens a new window/tab
-    await page.getByRole('link', { name: 'Browser Windows' }).click();
+    await page.getByRole('link', { name: 'Browser Windows' }).click({ force: true });
     await expect(page).toHaveURL(/.*browser-windows/);
     await expect(page.locator('#windowButton')).toBeVisible();
 

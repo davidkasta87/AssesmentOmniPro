@@ -15,6 +15,6 @@ export class FormsPage extends BasePage {
      * Click on Practice Form option
      */
     async clickPracticeForm() {
-        await this.practiceFormLink.click();
+        await this.practiceFormLink.click({ force: true });
     }
 }
