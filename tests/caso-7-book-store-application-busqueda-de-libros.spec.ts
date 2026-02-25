@@ -16,8 +16,9 @@ test.describe('Navigation Suite', () => {
     await expect(page.locator('#searchBox')).toHaveValue('Git');
 
     // 3. Observe the results
-    const firstTitle = page.locator('.rt-tbody .rt-td:nth-child(2)').first();
-    await expect(firstTitle).toContainText('Git');
+    // verify that at least one result contains the search term
+    const resultLink = page.locator('table').getByRole('link', { name: /Git/i }).first();
+    await expect(resultLink).toBeVisible();
   });
 
   test.afterAll(async () => {

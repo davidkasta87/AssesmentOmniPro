@@ -14,7 +14,7 @@ test.describe('Navigation Suite', () => {
     // Note: the site labels it "Accordian" in the sidebar
     await page.getByRole('link', { name: 'Accordian' }).click();
     await expect(page).toHaveURL(/.*accord/);
-    await expect(page.locator('.accordion')).toBeVisible();
+    await expect(page.locator('.accordion').first()).toBeVisible();
 
     // 3. Click through different panels of the accordion
     const panelButtons = page.locator('.accordion .card-header button');
