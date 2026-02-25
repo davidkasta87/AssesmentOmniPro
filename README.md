@@ -1,9 +1,5 @@
 # OmniProAssessment
 
-[![npm version](https://img.shields.io/npm/v/omniproassesment?color=blue)](https://www.npmjs.com/package/omniproassesment)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/<your-org>/<your-repo>/ci.yml?branch=main)](https://github.com/<your-org>/<your-repo>/actions)
-[![Coverage Status](https://img.shields.io/badge/coverage-unknown-lightgrey)](https://github.com/<your-org>/<your-repo>/)
-
 This repository contains an automated test suite built with Playwright and Serenity/JS for the DemoQA website.
 
 ## 📁 Project Structure
@@ -46,80 +42,56 @@ These instructions will get you a copy of the project up and running on your loc
 - Test plans are maintained in `specs/demoqa-test.plan.md` using a human-readable
   format that can be leveraged by tooling.
 
-## 📘 Documentación de la automatización
+## 📘 Automation Documentation
 
-Este repositorio incluye una documentación completa de la automatización dentro
-de este archivo README y en el plan de pruebas ubicado en `specs/demoqa-test.plan.md`.
-La información clave:
+This repository includes complete automation documentation in this README and in the test plan located at `specs/demoqa-test.plan.md`. Key information:
 
-1. **Estructura de pruebas** – Las pruebas se organizan por casos de uso en el
-   directorio `tests/`. Cada archivo corresponda a un escenario de navegación y
-   contiene comentarios que enlazan con el plan de pruebas.
-2. **Planes de prueba** – Utilice `specs/demoqa-test.plan.md` para describir los
-   escenarios de alto nivel, pasos y expectativas. El contenido es legible para
-   humanos y puede ser automatizado para generar o validar pruebas.
-3. **Cómo agregar un nuevo caso**:
-   - Añada un título y pasos en el plan de pruebas bajo la sección adecuada.
-   - Cree un nuevo archivo `.spec.ts` dentro de `tests/` con el mismo nombre
-     descriptivo; incluya encabezados `// spec: specs/demoqa-test.plan.md` y
-     `// seed: tests/seed.spec.ts` para mantener trazabilidad.
-   - Siga las prácticas existentes de localizadores robustos y `expect`.
-4. **Ejecución y reportes** –
-   - `npm test` ejecuta la suite completa usando Playwright. El comando es un
-     atajo para `npx playwright test` y respeta la configuración de
-     `playwright.config.ts`.
-   - Para correr un conjunto específico de pruebas utilice etiquetas o rutas,
-     por ejemplo:
+1. **Test Structure** – Tests are organized by use case in the `tests/` directory. Each file corresponds to a navigation scenario and contains comments linking to the test plan.
+2. **Test Plans** – Use `specs/demoqa-test.plan.md` to describe high-level scenarios, steps, and expectations. The content is human-readable and can be automated to generate or validate tests.
+3. **How to add a new case**:
+   - Add a title and steps in the test plan under the appropriate section.
+   - Create a new `.spec.ts` file in `tests/` with a descriptive name; include headers `// spec: specs/demoqa-test.plan.md` and `// seed: tests/seed.spec.ts` for traceability.
+   - Follow existing practices for robust locators and `expect`.
+4. **Execution and Reports** –
+   - `npm test` runs the full suite using Playwright. The command is a shortcut for `npx playwright test` and respects the configuration in `playwright.config.ts`.
+   - To run a specific set of tests, use tags or paths, for example:
      ```bash
      npx playwright test tests/caso-3-section-forms-practice-form.spec.ts
      npx playwright test --grep "Navigation Suite"
      ```
-   - El modo `--headed` o `--headless=0` permite ver el navegador durante la
-     ejecución; útil para depuración.
-   - Puede ajustar la variable de entorno `HEADLESS=false` o `RETRIES=1` para
-     modificar el comportamiento sin cambiar el código.
-   - Después de la ejecución se genera un directorio `playwright-report` con un
-     informe interactivo, y también se producen artefactos de Serenity/JS
-     (`reports/` o `target/site/serenity`) dependiendo de la configuración de
-     reporteros.
-   - En integración continua (CI) el mismo comando se invoca en el pipeline y
-     los artefactos se suben o archivan según sea necesario.
-5. **Mantenimiento** – Si la interfaz cambia, actualice los selectores en las
-   pruebas y refleje los pasos en el plan de pruebas. Se recomienda ejecutar
-   `npm test` tras cada modificación para detectar roturas tempranas.
+   - The `--headed` or `--headless=0` mode lets you see the browser during execution, useful for debugging.
+   - You can adjust the `HEADLESS=false` or `RETRIES=1` environment variables to modify behavior without changing code.
+   - After execution, a `playwright-report` directory is generated with an interactive report, and Serenity/JS artifacts (`reports/` or `target/site/serenity`) are produced depending on reporter configuration.
+   - In CI, the same command is invoked in the pipeline and artifacts are uploaded or archived as needed.
+5. **Maintenance** – If the interface changes, update selectors in the tests and reflect the steps in the test plan. It is recommended to run `npm test` after each modification to detect early breakages.
 
-La documentación dentro de este README sirve como guía principal y se debe
-mantener actualizada a medida que el proyecto evoluciona.
+The documentation in this README serves as the main guide and should be kept up to date as the project evolves.
 
 ## 🛠 Configuration
 
 - **TypeScript** settings are in `tsconfig.json`.
-- **Playwright** configuration is in `playwright.config.ts`, including Serenity
-  reporters (console + Serenity BDD).
+- **Playwright** configuration is in `playwright.config.ts`, including Serenity reporters (console + Serenity BDD).
 
 ## 📦 Dependencies
 
 Key dev dependencies include:
 
 - `@playwright/test` – the core test framework.
-- `@serenity-js/*` packages – for reporting, Screenplay pattern and integration
-  with Playwright.
+- `@serenity-js/*` packages – for reporting, Screenplay pattern, and integration with Playwright.
 
 ## 🚧 Git
 
-`.gitignore` is configured to exclude build artifacts, logs, IDE settings,
-Node modules, Playwright reports, and lockfiles. Feel free to add additional
-entries as needed before pushing to remote.
+`.gitignore` is configured to exclude build artifacts, logs, IDE settings, Node modules, Playwright reports, and lockfiles. Add additional entries as needed before pushing to remote.
 
-## �️ License
+## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests.
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 
-## �📚 Resources
+## 📚 Resources
 
 - [Playwright Documentation](https://playwright.dev/)
 - [Serenity/JS Handbook](https://serenity-js.org/handbook/)
